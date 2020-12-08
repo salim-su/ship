@@ -8,10 +8,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import moment from 'moment'
 // 设置 js中可以访问 $cdn
 import { $cdn } from '@/config'
 Vue.prototype.$cdn = $cdn
 Vue.prototype.$axios = axios
+Vue.prototype.$moment = moment
 // 全局引入按需引入UI库 vant
 import '@/plugins/vant'
 // 引入全局样式
@@ -26,8 +28,6 @@ Vue.config.productionTip = false
 Vue.prototype.$wx = wx
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
     if (localStorage.getItem('token')) { // 判断本地是否存在access_token
       next()

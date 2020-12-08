@@ -24,6 +24,30 @@ export const constantRouterMap = [
     component: () => import('@/views/add-code/add-code')
   },
   {
+    path: '/fy-check',
+    component: () => import('@/views/fy-check/fy-check')
+  },
+  {
+    path: '/fy-check-search',
+    component: () => import('@/views/fy-check-search/fy-check-search')
+  },
+  {
+    path: '/fy-check-res',
+    component: () => import('@/views/fy-check-res/fy-check-res')
+  }, {
+    path: '/check-table',
+    component: () => import('@/views/check-table/check-table')
+  }, {
+    path: '/check-table-report',
+    component: () => import('@/views/check-table-report/check-table-report')
+  }, {
+    path: '/refresh',
+    component: () => import('@/views/refresh/refresh')
+  },{
+    path: '/signature',
+    component: () => import('@/views/signature/signature')
+  },
+  {
     path: '/',
     component: () => import('@/views/layouts/index'),
     redirect: '/home',
@@ -41,8 +65,8 @@ export const constantRouterMap = [
       {
         path: '/about',
         name: 'About',
-        component: () => import('@/views/home/about'),
-        meta: { title: '关于我', keepAlive: false }
+        component: () => import('@/views/home/index'),
+        meta: { title: '我的', keepAlive: false }
       }
     ]
   }

@@ -1,50 +1,23 @@
 <!-- home -->
 <template>
   <div class="con">
-    <van-nav-bar
-      title="首页"
-      :fixed="true"
-    />
-
     <div class="index-bg">
-
-    </div>
-
-    <div class="d1">
-      <div style="width: 50%;" class=" flex-column mt30">
-        <h1 class="mb0 cfff ct">{{nickname}}</h1>
-        <h3 class="mt0 cfff">{{phone}}</h3>
-      </div>
-      <div style="width: 50%;" class=" mt30 flex justify-content-end">
-        <img src="../../../static/img/login-out.png" alt="" class="imgs mt25">
-        <h2 class="cfff mt25" @click="goOut()">退出登录</h2>
-      </div>
-    </div>
-
-    <div class="d2">
-
-      <van-swipe-cell v-for="item of devicesInfoList" :key="item" class="mb10 cell-list">
-
-        <div style="" class="cell-content">
-
-          <div class="flex align-items-center cell1">
-            <img src="../../../static/img/yangan.png" alt="" class="imgs">
-            <div class="name">{{item.name}}</div>
-          </div>
-
-          <div class="cell12 fs14 ct">
-            设备编号:{{item.no}}
-          </div>
-          <div class="cell13 fs14">
-            详细地址:{{item.cityName}} {{item.installLocation}}
-          </div>
+      <div class="index-content flex">
+        <div class="fy-check flex1 flex" >
+          <img src="../../../static/shipimg/check.png" alt="" @click="clickCheck()">
+          <div class="fs14">防疫检查</div>
         </div>
 
-        <template #right>
-          <van-button square text="编辑" type="warning" class="delete-button" @click="edit(item)"/>
-          <van-button square text="删除" type="danger" class="delete-button" @click="remove(item)"/>
-        </template>
-      </van-swipe-cell>
+        <div class="ship-record flex1 flex" >
+          <img src="../../../static/shipimg/ship.png" alt="" @click="clickShip()">
+          <div class="fs14">船舶记录</div>
+
+        </div>
+
+        <div class="flex1">
+
+        </div>
+      </div>
 
     </div>
 
@@ -53,8 +26,7 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
-import { getDevices, getUnHandleAlarmList, removeDevice } from '../../api/user'
+
 export default {
   data() {
     return {
@@ -68,69 +40,60 @@ export default {
   computed: {},
 
   mounted() {
-    this.getDevicesInfo()
-    this.nickname = window.localStorage.getItem('nick_name')
-    this.phone = window.localStorage.getItem('phone')
 
-    this.getUnHandleAlarmListInfo()
-    this.timer = setInterval(() => {
-      this.getUnHandleAlarmListInfo()
-    }, 30000)
   },
 
   methods: {
-    getDevicesInfo() {
-      getDevices().then(res => {
-        this.devicesInfoList = res.data
-      }).catch(res => {
-      })
+    clickCheck() {
+      this.$router.replace({ path: '/fy-check', query: { router: '/home' }})
     },
-    goOut() {
-      clearInterval(this.timer)
-      window.localStorage.clear()
-      this.$router.replace('/login')
-    },
-    edit(item) {
-      clearInterval(this.timer)
-      const objAdd = JSON.stringify(item)
-      this.$router.replace({ path: '/device-register-info?objAdd=' + encodeURIComponent(objAdd), query: { router: '/home' }})
-    },
-    remove(item) {
-      removeDevice({ deviceId: item.id }).then(res => {
-        Toast('删除设备成功')
-        this.getDevicesInfo()
-      })
-    },
-    getUnHandleAlarmListInfo() {
-      getUnHandleAlarmList().then(res => {
-        if (res.data.length > 0) {
-          clearInterval(this.timer)
-          this.$router.replace('/device-alert')
-        }
-      }).catch(res => {
-      })
+    clickShip() {
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.fy-check,.ship-record{
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  img{
+    width: 31.5px;
+    height: 34.5px;
+  }
+}
+.fy-check{
+  img{
+    width: 31.5px;
+    height: 34.5px;
+  }
+}
+.ship-record{
+  img{
+    width: 34.5px;
+    height: 33.5px;
+  }
+}
   .index-bg {
     width: 100vw;
-    height: 255px;
-    background-image: url('../../../static/img/register-bg.png');
+    height: 100%;
+    background-image: url('../../../static/shipimg/app-menu.png');
     background-size: cover;
     background-repeat: no-repeat;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+    padding-top: 120px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 150px;
+    box-sizing: border-box;
   }
 
   .index-content {
-    box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 150px;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: #e3e3e3 1px 0px 3px;
+    border-radius: 5px;
   }
 
   .index-content-w {

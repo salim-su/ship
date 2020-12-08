@@ -1,16 +1,12 @@
 const api = {
-  UserInfo: '/user/userinfo',
-  UserName: '/user/name',
   ShipList: 'epidemic/ship/list',
-  SendCode: 'wechat/sendCode',
-  LoginSystem: 'wechat/token',
-  GetDevices: 'wechat/getDevices',
-  UpdateDevice: 'wechat/updateDevice',
-  GetDeviceByImei: 'wechat/getDeviceByImei',
-  GetAlarmList: 'wechat/getAlarmList',
-  GetUnHandleAlarmList: 'wechat/getUnHandleAlarmList',
-  HandleAlarm: 'wechat/handleAlarm',
-  RemoveDevice: 'wechat/removeDevice'
+  LoginSystem: 'blade-auth/oauth/token',
+  CheckPage: 'epidemic/examine/page',
+  CheckItem: 'epidemic/examineitem/list',
+  CheckSave: 'epidemic/examine/save',
+  CheckUpdate: 'epidemic/examineitem/update',
+  CheckDetail: 'epidemic/examineitem/detail',
+  CheckRemove: 'epidemic/examine/remove'
 }
 
 export default api

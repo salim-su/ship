@@ -29,15 +29,12 @@ export default {
           icon: 'home-o'
         },
         {
-          icon: require('../../../static/img/index-sel.png')
-        },
-        {
-          title: '报警',
+          title: '我的',
           to: {
             name: 'About',
             replace: true
           },
-          icon: 'volume-o'
+          icon: 'user-o'
         }
       ]
     }

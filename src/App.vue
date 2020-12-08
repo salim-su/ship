@@ -10,21 +10,21 @@ export default {
 </script>
 <style lang="scss">
   .van-nav-bar{
-    background: transparent !important;
-    color: #ffffff;
+    background: #FAFAFA !important;
+    color: #485379;
   }
   .van-hairline--bottom::after{
     visibility: hidden;
   }
-  .van-nav-bar__title{
-    color: #fff !important;
-  }
-  .van-nav-bar .van-icon{
-    color: #fff;
-  }
-  .van-nav-bar__text{
-    color: #fff;
-  }
+  /*.van-nav-bar__title{*/
+  /*  color: #fff !important;*/
+  /*}*/
+  /*.van-nav-bar .van-icon{*/
+  /*  color: #fff;*/
+  /*}*/
+  /*.van-nav-bar__text{*/
+  /*  color: #fff;*/
+  /*}*/
   .tabbar{
     .van-icon__image{
       width: 45px;
@@ -39,12 +39,15 @@ export default {
     }
   }
   .van-nav-bar .van-icon{
-    color: #fff !important;
+    color: #485379!important;
   }
   .van-nav-bar__text{
-    color: #fff !important;
+    color: #485379 !important;
   }
   .van-tabbar-item--active{
-    color: #5426B7 !important;
+    color: #287EFF !important;
   }
+    .van-nav-bar__right .van-icon{
+      color: #EB6100 !important;
+    }
 </style>

@@ -12,7 +12,7 @@ const service = axios.create({
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000, // request timeout
   headers: {
-    Authorization: 'Basic d2F0ZXI6d2F0ZXJfc2VjcmV0'
+    Authorization: 'Basic c2FiZXI6c2FiZXJfc2VjcmV0'
   }
 })
 
@@ -42,15 +42,15 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
   response => {
+    console.log(response)
     Toast.clear()
     const res = response.data
     if (res.code && res.code !== 200) {
       // 登录超时,重新登录
       if (res.code === 401) {
+        console.log(401)
         localStorage.clear()
-        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7fbadec3812a8afe&redirect_uri=http://weixin.xinyaiot.com/wx/redirect/wx7fbadec3812a8afe/iot&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect'
-
-        // location.reload()
+        window.location.href = 'http://localhost:8080/'
         // store.dispatch('FedLogOut').then(() => {
         //   location.reload()
         // })
@@ -63,6 +63,8 @@ service.interceptors.response.use(
   error => {
     Toast.clear()
     console.log('err' + error) // for debug
+    // localStorage.clear()
+    // window.location.href = 'http://localhost:8080/'
     return Promise.reject(error)
   }
 )

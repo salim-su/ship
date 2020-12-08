@@ -3,36 +3,25 @@ import api from './index'
 import request from '@/utils/request'
 
 // 登录
-// export function login(data) {
-//   return request({
-//     url: api.Login,
-//     method: 'post',
-//     data
-//   })
-// }
-
-// 用户信息 post 方法
-export function getUserInfo(data) {
+export function loginSystem(params) {
   return request({
-    url: api.UserInfo,
+    url: api.LoginSystem,
     method: 'post',
-    data,
+    params,
     hideloading: true
   })
 }
-
-// 用户名称 get 方法
-export function getUserName(params) {
+// 获取防疫检查列表
+export function checkPage(params) {
   return request({
-    url: api.UserName,
+    url: api.CheckPage,
     method: 'get',
     params,
     hideloading: true
   })
 }
-
-// 获取列表
-export function getshipList(params) {
+// 船舶列表
+export function shipList(params) {
   return request({
     url: api.ShipList,
     method: 'get',
@@ -40,84 +29,48 @@ export function getshipList(params) {
     hideloading: true
   })
 }
-// 发送验证码
-export function sendCode(data) {
+// 获取检查项列表
+export function checkItem(params) {
   return request({
-    url: api.SendCode,
-    method: 'post',
-    data,
-    hideloading: true
-  })
-}
-// 登录
-export function loginSystem(data) {
-  return request({
-    url: api.LoginSystem,
-    method: 'post',
-    data,
-    hideloading: true
-  })
-}
-// 获取设备列表
-export function getDevices(params) {
-  return request({
-    url: api.GetDevices,
+    url: api.CheckItem,
     method: 'get',
     params,
     hideloading: true
   })
 }
-// 编辑新增设备
-export function updateDevice(data) {
+// 获取检查项列表
+export function CheckSave(data) {
   return request({
-    url: api.UpdateDevice,
+    url: api.CheckSave,
     method: 'post',
     data,
     hideloading: true
   })
 }
-// 根据no获取设备信息
-export function getDeviceByImei(params) {
+// 保存检查项
+export function checkUpdate(data) {
   return request({
-    url: api.GetDeviceByImei,
-    method: 'get',
-    params,
-    hideloading: true
-  })
-}
-// 获取设备记录
-export function getAlarmList(params) {
-  return request({
-    url: api.GetAlarmList,
-    method: 'get',
-    params,
-    hideloading: true
-  })
-}
-// 获取未处理报警列表
-export function getUnHandleAlarmList(params) {
-  return request({
-    url: api.GetUnHandleAlarmList,
-    method: 'get',
-    params,
-    hideloading: true
-  })
-}
-// 获取未处理报警列表
-export function handleAlarm(data) {
-  return request({
-    url: api.HandleAlarm,
+    url: api.CheckUpdate,
     method: 'post',
     data,
     hideloading: true
   })
 }
-// 获取未处理报警列表
-export function removeDevice(data) {
+// 保存检查项
+export function checkDetail(params) {
   return request({
-    url: api.RemoveDevice,
+    url: api.CheckDetail,
+    method: 'get',
+    params,
+    hideloading: true
+  })
+}
+// 删除检查表
+export function checkRemove(params) {
+  return request({
+    url: api.CheckRemove,
     method: 'post',
-    data,
+    params,
     hideloading: true
   })
 }
