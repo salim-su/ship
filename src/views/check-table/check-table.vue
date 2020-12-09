@@ -7,13 +7,17 @@
           left-text="返回"
           left-arrow
           @click-left="onClickLeft"
+          @click-right="onClickRight"
         >
+          <template #right v-if="flag">
+            <span>下一步</span>
+          </template>
         </van-nav-bar>
         <div class="real-content">
 
           <div class="real-content-item" @click="goCheckTableReport(item)" v-for="(item,index) of examineItemVOList" :key="index">
             <div class="mb10 fs16">
-              {{item.name}}
+              {{index+1}}、{{item.name}}
             </div>
             <div class="mb10 fs14 flex">
               <van-icon v-if="item.isAccord == 0" name="clear" color="#DA5662" class="fs16"/>
@@ -38,16 +42,22 @@ export default {
   name: 'check-table',
   data() {
     return {
-      examineItemVOList: []
+      examineItemVOList: [],
+      examineId: '',
+      flag: false
     }
   },
   mounted() {
-    console.log(JSON.parse(this.$route.query.objAdd))
-
-    if (JSON.parse(this.$route.query.objAdd)['edit']) {
-      checkItem({ examineId: JSON.parse(this.$route.query.objAdd).examineId }).then(res => {
-        console.log(res)
+    if (JSON.parse(this.$route.query.objAdd)['edit'] || JSON.parse(this.$route.query.objAdd)['check']) {
+      this.examineId = JSON.parse(this.$route.query.objAdd).examineId
+      checkItem({ examineId: this.examineId }).then(res => {
         this.examineItemVOList = res['data']
+        console.log(this.examineItemVOList)
+        if (this.examineItemVOList.filter(p => p.status === 2).length === 12) {
+          this.flag = true
+        } else {
+          this.flag = false
+        }
       })
     } else {
       const data = {
@@ -55,12 +65,20 @@ export default {
       }
       CheckSave(data).then(res => {
         this.examineItemVOList = res['data']['examineItemVOList']
+        this.examineId = res['data']['id']
       })
     }
   },
   methods: {
     onClickLeft() {
-      this.$router.replace('/')
+      this.$router.replace('/fy-check')
+    },
+    onClickRight() {
+      const data = {
+        id: this.examineId
+      }
+      const objAdd = JSON.stringify(data)
+      this.$router.replace({ path: '/signature?objAdd=' + encodeURIComponent(objAdd) })
     },
     remove() {
       Toast('删除删除')
@@ -78,12 +96,15 @@ export default {
         ossIds: item.ossIds,
         isAccord: item.isAccord,
         remark: item.remark,
-        examineId: JSON.parse(this.$route.query.objAdd).examineId
+        examineId: this.examineId
       }
       if (JSON.parse(this.$route.query.objAdd)['edit']) {
         data['edit'] = true
       }
-
+      if (JSON.parse(this.$route.query.objAdd)['check']) {
+        data['check'] = true
+      }
+      console.log(data)
       const objAdd = JSON.stringify(data)
       this.$router.replace({ path: '/check-table-report?objAdd=' + encodeURIComponent(objAdd) })
     }

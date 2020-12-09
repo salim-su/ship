@@ -6,7 +6,8 @@ const api = {
   CheckSave: 'epidemic/examine/save',
   CheckUpdate: 'epidemic/examineitem/update',
   CheckDetail: 'epidemic/examineitem/detail',
-  CheckRemove: 'epidemic/examine/remove'
+  CheckRemove: 'epidemic/examine/remove',
+  CheckExamineFinished: 'epidemic/examine/finished'
 }
 
 export default api

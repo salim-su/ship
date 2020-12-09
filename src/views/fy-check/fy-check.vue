@@ -19,7 +19,7 @@
           <van-swipe-cell :key="index" v-for="(item,index) of this.checkPageList">
             <div class="real-content-item">
               <div class="mb10 fs14">
-                {{item.shipName}}
+                {{item.shipName}} - {{item.statusName}}
               </div>
 
               <div class="mb10 fs14">
@@ -28,7 +28,8 @@
             </div>
             <template #right>
               <van-button @click="remove(item)" square text="删除" type="danger"/>
-              <van-button @click="edit(item)" square text="编辑" type="primary"/>
+              <van-button v-if="item.status !== 3" @click="edit(item)" square text="编辑" type="primary"/>
+              <van-button v-if="item.status === 3" @click="check(item)" square text="查看" type="warning"/>
             </template>
           </van-swipe-cell>
         </div>
@@ -73,6 +74,7 @@ export default {
         ids: item.id
       }
       checkRemove(postData).then(res => {
+        Toast('删除成功')
         this.getList()
       })
     },
@@ -87,6 +89,14 @@ export default {
     },
     add() {
       this.$router.replace({ path: '/fy-check-search', query: { router: '/fy-check' }})
+    },
+    check(item) {
+      const data = {
+        check: true,
+        examineId: item.id
+      }
+      const objAdd = JSON.stringify(data)
+      this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
     }
   }
 }

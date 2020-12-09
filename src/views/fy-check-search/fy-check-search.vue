@@ -53,6 +53,10 @@ export default {
       showPicker: false
     }
   },
+  mounted() {
+    console.log(this.$moment(new Date()).format('YYYY-MM-DD'))
+    this.value = this.$moment(new Date()).format('YYYY-MM-DD')
+  },
   methods: {
     onClickLeft() {
       this.$router.replace('/fy-check')

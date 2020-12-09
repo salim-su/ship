@@ -17,32 +17,72 @@
               <div class="fs16 mb10">
                 {{record.name}}
               </div>
-              <van-radio-group v-model="isAccord" direction="horizontal">
-                <van-radio name="1" class="fs14">符合</van-radio>
-                <van-radio name="0" class="fs14">不符合</van-radio>
-              </van-radio-group>
+<!--              <van-radio-group v-model="isAccord" direction="horizontal" disabled>-->
+<!--                <van-radio name="1" class="fs14">符合</van-radio>-->
+<!--                <van-radio name="0" class="fs14">不符合</van-radio>-->
+<!--              </van-radio-group>-->
+
+              <template v-if="check">
+                <van-radio-group v-model="isAccord" direction="horizontal" disabled>
+                  <van-radio name="1" class="fs14">符合</van-radio>
+                  <van-radio name="0" class="fs14">不符合</van-radio>
+                </van-radio-group>
+              </template>
+
+              <template v-if="!check">
+                <van-radio-group v-model="isAccord" direction="horizontal">
+                  <van-radio name="1" class="fs14">符合</van-radio>
+                  <van-radio name="0" class="fs14">不符合</van-radio>
+                </van-radio-group>
+              </template>
+
             </div>
 
             <div class="real-content-1" v-if="isAccord === '0'">
               <div class="fs16 mb10">
                 详情描述
               </div>
-              <van-field
-                v-model="remark"
-                rows="2"
-                autosize
-                type="textarea"
-                maxlength="100"
-                placeholder="请输入详情"
-                show-word-limit
-              />
+
+              <template v-if="check">
+                <van-field
+                  disabled
+                  v-model="remark"
+                  rows="2"
+                  autosize
+                  type="textarea"
+                  maxlength="100"
+                  placeholder="请输入详情"
+                  show-word-limit
+                />
+              </template>
+
+              <template v-if="!check">
+                <van-field
+                  v-model="remark"
+                  rows="2"
+                  autosize
+                  type="textarea"
+                  maxlength="100"
+                  placeholder="请输入详情"
+                  show-word-limit
+                />
+              </template>
+
             </div>
 
             <div class="real-content-1" v-if="record.isHavePhotograph">
               <div class="fs16 mb10">
                 上传图片
               </div>
-              <van-uploader :after-read="afterRead" v-model="fileList"/>
+
+              <template v-if="check">
+                <van-uploader disabled :after-read="afterRead" v-model="fileList"/>
+
+              </template>
+              <template v-if="!check">
+                <van-uploader :after-read="afterRead" v-model="fileList"/>
+
+              </template>
 
             </div>
 
@@ -72,12 +112,18 @@ export default {
       remark: '',
       record: {},
       attach: [],
-      editInfo: {}
+      editInfo: {},
+      check: false
     }
   },
   mounted() {
     this.record = JSON.parse(this.$route.query.objAdd)
     console.log(this.record)
+
+    if (this.record['check']) {
+      this.check = this.record['check']
+    }
+
     if (this.record['remark']) {
       this.remark = this.record['remark']
     }
@@ -118,11 +164,11 @@ export default {
       console.log(file)
     },
     log() {
-      if (this.fileList.length === 0) {
+      if (this.fileList.length === 0 && this.record.isHavePhotograph) {
         Toast('请上传图片')
         return
       }
-
+      console.log(this.fileList)
       this.fileList.forEach(res => {
         if (res['file']) {
           this.myUpload(res['file'])
@@ -140,10 +186,12 @@ export default {
 
         checkUpdate(postData).then(res => {
           Toast('保存成功')
+          this.record['edit'] = true
           const objAdd = JSON.stringify(this.record)
+          console.log(objAdd)
           this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
         })
-      }, 500)
+      }, 1000)
     },
     myUpload(event) {
       const file = event
@@ -153,6 +201,7 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' }
       }
       this.$axios.post('api/blade-resource/oss/endpoint/put-file-attach', param, config).then((res) => {
+        console.log(res.data.data)
         this.attach.push(res.data.data.attachId)
       }).catch(e => {
       })

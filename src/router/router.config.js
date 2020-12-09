@@ -8,22 +8,6 @@ export const constantRouterMap = [
     component: () => import('@/views/login/login')
   },
   {
-    path: '/device-alert',
-    component: () => import('@/views/device-alert/device-alert')
-  },
-  {
-    path: '/device-register-info',
-    component: () => import('@/views/device-register-info/device-register-info')
-  },
-  {
-    path: '/add-select',
-    component: () => import('@/views/add-select/add-select')
-  },
-  {
-    path: '/add-code',
-    component: () => import('@/views/add-code/add-code')
-  },
-  {
     path: '/fy-check',
     component: () => import('@/views/fy-check/fy-check')
   },
@@ -43,7 +27,7 @@ export const constantRouterMap = [
   }, {
     path: '/refresh',
     component: () => import('@/views/refresh/refresh')
-  },{
+  }, {
     path: '/signature',
     component: () => import('@/views/signature/signature')
   },

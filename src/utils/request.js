@@ -63,8 +63,8 @@ service.interceptors.response.use(
   error => {
     Toast.clear()
     console.log('err' + error) // for debug
-    // localStorage.clear()
-    // window.location.href = 'http://localhost:8080/'
+    localStorage.clear()
+    window.location.href = 'http://192.168.19.53:8080/'
     return Promise.reject(error)
   }
 )

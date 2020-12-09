@@ -74,3 +74,12 @@ export function checkRemove(params) {
     hideloading: true
   })
 }
+// 保存检查
+export function checkExamineFinished(data) {
+  return request({
+    url: api.CheckExamineFinished,
+    method: 'post',
+    data,
+    hideloading: true
+  })
+}

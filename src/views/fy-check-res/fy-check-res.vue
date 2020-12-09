@@ -17,7 +17,7 @@
             </div>
 
             <div class="mb10 fs14">
-              {{item.openingTime}}
+              {{item.startingTime}}
             </div>
           </div>
         </div>
@@ -35,10 +35,12 @@ export default {
   name: 'fy-check-res',
   data() {
     return {
-      shipListInfo: []
+      shipListInfo: [],
+      startingTime: ''
     }
   },
   mounted() {
+    this.startingTime = JSON.parse(this.$route.query.objAdd).startingTime
     this.shipList()
   },
   methods: {
@@ -59,8 +61,9 @@ export default {
       this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
     },
     shipList() {
+      console.log(this.startingTime)
       const getData = {
-        startingTime: ''
+        startDate: this.startingTime
       }
       shipList(getData).then(res => {
         console.log(res.data)
