@@ -76,11 +76,11 @@
               </div>
 
               <template v-if="check">
-                <van-uploader disabled :after-read="afterRead" v-model="fileList"/>
+                <van-uploader disabled :after-read="afterRead" v-model="fileList" :before-delete="beforeDelete"/>
 
               </template>
               <template v-if="!check">
-                <van-uploader :after-read="afterRead" v-model="fileList"/>
+                <van-uploader :after-read="afterRead" v-model="fileList" :before-delete="beforeDelete"/>
 
               </template>
 
@@ -113,13 +113,12 @@ export default {
       record: {},
       attach: [],
       editInfo: {},
-      check: false
+      check: false,
+      flagLength: 0
     }
   },
   mounted() {
     this.record = JSON.parse(this.$route.query.objAdd)
-    console.log(this.record)
-
     if (this.record['check']) {
       this.check = this.record['check']
     }
@@ -134,7 +133,6 @@ export default {
     const data = {
       id: this.record.id
     }
-    console.log(data)
     checkDetail(data).then(res => {
       if (res['data']['ossLinks'].length > 0) {
         const aaa = res['data']['ossLinks']
@@ -148,8 +146,11 @@ export default {
   methods: {
     onClickLeft() {
       const objAdd = JSON.stringify(this.record)
-      console.log(objAdd)
       this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
+    },
+    beforeDelete(file, index) {
+      this.attach.splice(index['index'], 1)
+      this.fileList.splice(index['index'], 1)
     },
     remove() {
       Toast('删除删除')
@@ -161,37 +162,22 @@ export default {
       this.$router.replace('/fy-check-search')
     },
     afterRead(file) {
-      console.log(file)
     },
     log() {
       if (this.fileList.length === 0 && this.record.isHavePhotograph) {
         Toast('请上传图片')
         return
       }
-      console.log(this.fileList)
+
+      if (this.fileList.length === this.attach.length) {
+        this.save()
+      }
+
       this.fileList.forEach(res => {
         if (res['file']) {
           this.myUpload(res['file'])
         }
       })
-
-      setTimeout(res => {
-        const postData = {
-          id: this.record.id,
-          isAccord: this.isAccord,
-          remark: this.remark,
-          ossIds: this.attach.join(',')
-        }
-        console.log(postData)
-
-        checkUpdate(postData).then(res => {
-          Toast('保存成功')
-          this.record['edit'] = true
-          const objAdd = JSON.stringify(this.record)
-          console.log(objAdd)
-          this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
-        })
-      }, 1000)
     },
     myUpload(event) {
       const file = event
@@ -203,7 +189,29 @@ export default {
       this.$axios.post('api/blade-resource/oss/endpoint/put-file-attach', param, config).then((res) => {
         console.log(res.data.data)
         this.attach.push(res.data.data.attachId)
+        console.log(this.attach.length)
+        console.log(this.fileList.length)
+
+        if (this.fileList.length === this.attach.length) {
+          this.save()
+        }
       }).catch(e => {
+        Toast(e)
+      })
+    },
+    save() {
+      const postData = {
+        id: this.record.id,
+        isAccord: this.isAccord,
+        remark: this.remark,
+        ossIds: this.attach.join(',')
+      }
+      console.log(postData)
+      checkUpdate(postData).then(res => {
+        Toast('保存成功')
+        this.record['edit'] = true
+        const objAdd = JSON.stringify(this.record)
+        this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
       })
     }
   }

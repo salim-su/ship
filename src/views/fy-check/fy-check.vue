@@ -69,7 +69,6 @@ export default {
       this.$router.replace('/home')
     },
     remove(item) {
-      console.log(item)
       const postData = {
         ids: item.id
       }
@@ -79,7 +78,6 @@ export default {
       })
     },
     edit(item) {
-      console.log(item)
       const data = {
         edit: true,
         examineId: item.id

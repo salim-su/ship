@@ -5,7 +5,7 @@
       <div class="index-content flex flex-column">
 
         <van-nav-bar
-          title="防疫检查"
+          title="搜索"
           left-text="返回"
           left-arrow
           right-text="下一步"
@@ -54,7 +54,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$moment(new Date()).format('YYYY-MM-DD'))
     this.value = this.$moment(new Date()).format('YYYY-MM-DD')
   },
   methods: {

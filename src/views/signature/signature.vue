@@ -82,7 +82,6 @@ export default {
       this.canvas.addEventListener('touchend', function() {
         this.cxt.closePath()
         const imgBase64 = this.canvas.toDataURL()
-        // console.log(imgBase64);
         this.signSrc = imgBase64
         this.isSign = true
       }.bind(this), false)
@@ -99,6 +98,7 @@ export default {
           signatureId: this.signSrc
         }
         checkExamineFinished(postData).then(res => {
+          Toast('保存成功')
           this.$router.replace({ path: '/fy-check' })
         })
         this.isSign = true

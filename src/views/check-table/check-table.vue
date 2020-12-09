@@ -9,7 +9,7 @@
           @click-left="onClickLeft"
           @click-right="onClickRight"
         >
-          <template #right v-if="flag">
+          <template #right v-if="flag&&!JSON.parse(this.$route.query.objAdd)['check']">
             <span>下一步</span>
           </template>
         </van-nav-bar>
@@ -52,7 +52,6 @@ export default {
       this.examineId = JSON.parse(this.$route.query.objAdd).examineId
       checkItem({ examineId: this.examineId }).then(res => {
         this.examineItemVOList = res['data']
-        console.log(this.examineItemVOList)
         if (this.examineItemVOList.filter(p => p.status === 2).length === 12) {
           this.flag = true
         } else {
@@ -87,7 +86,6 @@ export default {
       Toast('编辑编辑')
     },
     goCheckTableReport(item) {
-      console.log(item)
       const data = {
         shipId: JSON.parse(this.$route.query.objAdd).shipId,
         id: item.id,
@@ -104,7 +102,6 @@ export default {
       if (JSON.parse(this.$route.query.objAdd)['check']) {
         data['check'] = true
       }
-      console.log(data)
       const objAdd = JSON.stringify(data)
       this.$router.replace({ path: '/check-table-report?objAdd=' + encodeURIComponent(objAdd) })
     }

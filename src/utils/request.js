@@ -4,8 +4,9 @@ import { Toast } from 'vant'
 // 根据环境不同引入不同api地址
 import { baseApi } from '@/config'
 const token = window.localStorage.getItem('token')
-console.log(token)
-console.log(window.localStorage)
+// console.log(token)
+// console.log(window.localStorage)
+// console.log(window.location.origin)
 // create an axios instance
 const service = axios.create({
   baseURL: baseApi, // url = base api url + request url
@@ -50,7 +51,7 @@ service.interceptors.response.use(
       if (res.code === 401) {
         console.log(401)
         localStorage.clear()
-        window.location.href = 'http://localhost:8080/'
+        window.location.href = window.location.origin
         // store.dispatch('FedLogOut').then(() => {
         //   location.reload()
         // })
@@ -64,7 +65,7 @@ service.interceptors.response.use(
     Toast.clear()
     console.log('err' + error) // for debug
     localStorage.clear()
-    window.location.href = 'http://192.168.19.53:8080/'
+    window.location.href = window.location.origin
     return Promise.reject(error)
   }
 )

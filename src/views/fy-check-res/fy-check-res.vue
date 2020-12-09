@@ -61,12 +61,10 @@ export default {
       this.$router.replace({ path: '/check-table?objAdd=' + encodeURIComponent(objAdd) })
     },
     shipList() {
-      console.log(this.startingTime)
       const getData = {
         startDate: this.startingTime
       }
       shipList(getData).then(res => {
-        console.log(res.data)
         this.shipListInfo = res.data
       })
     }
